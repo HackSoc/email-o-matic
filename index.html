@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>The HackSoc Email-o-Matic</title>
+</head>
+<body>
+    <h1>The HackSoc Email-o-Matic</h1>
+    <p>
+        Write in the box in the following format and HTML for an email will
+        be generated!
+    </p>
+    <ul>
+        <li>Separate sections with ---</li>
+        <li>Write HTML in sections; <b>line breaks must be explicit</b> using br.</li>
+        <li>The first line of a section is its title.</li>
+    </ul>
+    <h2>Input</h2>
+    <textarea id="section-input" cols="30" rows="10" style="width: 100%"></textarea><br>
+    <button id="submit-button">OK</button>
+    <hr style="height: 1px; background-color: #aaa; border: none;">
+    <h2>Output</h2>
+    <iframe id="html-output" style="width: 100%"></iframe>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById("submit-button").onclick = translate;
+
+        async function translate() {
+            const text = document.getElementById("section-input").value;
+            const sections = new Parser(text).parse();
+            const html = await new Builder(sections).build();
+
+            document.getElementById("html-output").srcdoc = html;
+        };
+    </script>
+</body>
+</html>
